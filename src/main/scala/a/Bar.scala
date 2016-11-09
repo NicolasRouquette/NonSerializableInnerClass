@@ -12,14 +12,19 @@ object Bar {
     val r = new Runnable() {
 
       override def run(): Unit = {
-        Foo.hello("world1")
+        for {
+          _ <- Foo.hello("world1")
+        } ()
+
       }
     }
     r.run()
   }
 
   def world2(): Unit = {
-    Foo.hello("world2")
+    for {
+      _ <- Foo.hello("world2")
+    } ()
   }
 
   def world3(): Unit = {
@@ -28,8 +33,10 @@ object Bar {
       override def run(): Unit = {
         Wrapper.toTry
         { (s: String) =>
-          Foo.hello(s)
-        }("world1") match {
+          for {
+            _ <- Foo.hello(s)
+          } ()
+        }("world3") match {
           case Failure(t) =>
             throw t
           case Success(_) =>
