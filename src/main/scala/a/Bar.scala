@@ -1,7 +1,5 @@
 package a
 
-import java.lang.{Runnable, System}
-
 import scala.{StringContext, Unit}
 import scala.Predef.String
 import scala.util.{Failure, Success}
@@ -9,34 +7,36 @@ import scala.util.{Failure, Success}
 object Bar {
 
   def world1(): Unit = {
-    val r = new Runnable() {
+    val r = new Invocable() {
 
-      override def run(): Unit = {
+      override def run(d: Data): Unit = {
         for {
-          _ <- Foo.hello("world1")
+          _ <- Foo.hello(d)
         } ()
 
       }
     }
-    r.run()
+    val d: Data = scala.Predef.???
+    r.run(d)
   }
 
   def world2(): Unit = {
+    val d: Data = scala.Predef.???
     for {
-      _ <- Foo.hello("world2")
+      _ <- Foo.hello(d)
     } ()
   }
 
   def world3(): Unit = {
-     val r = new Runnable() {
+     val r = new Invocable() {
 
-      override def run(): Unit = {
+      override def run(d: Data): Unit = {
         Wrapper.toTry
-        { (s: String) =>
+        { (x: Data) =>
           for {
-            _ <- Foo.hello(s)
+            _ <- Foo.hello(x)
           } ()
-        }("world3") match {
+        }(d) match {
           case Failure(t) =>
             throw t
           case Success(_) =>
@@ -44,6 +44,7 @@ object Bar {
         }
       }
     }
-    r.run()
+    val d: Data = scala.Predef.???
+    r.run(d)
   }
 }

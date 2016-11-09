@@ -7,10 +7,8 @@ import scala.Predef.String
 
 object Foo {
 
-  def hello(s: String): Try[String] = {
-    val m = s"Hello $s"
-    System.out.println(m)
-    Success(m)
+  def hello(d: Data): Try[String] = {
+    Success(d.toString)
   }
 
 }
