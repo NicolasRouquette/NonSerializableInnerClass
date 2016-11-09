@@ -1,8 +1,10 @@
 package a
 
-import java.lang.{Runnable,System}
-import scala.{StringContext,Unit}
+import java.lang.{Runnable, System}
+
+import scala.{StringContext, Unit}
 import scala.Predef.String
+import scala.util.{Failure, Success}
 
 object Bar {
 
@@ -18,5 +20,20 @@ object Bar {
 
   def world2(): Unit = {
     Foo.hello("world2")
+  }
+
+  def world3(): Unit = {
+     val r = new Runnable() {
+
+      override def run(): Unit = {
+        Wrapper.toTry(Foo.hello)("world1") match {
+          case Failure(t) =>
+            throw t
+          case Success(_) =>
+            ()
+        }
+      }
+    }
+    r.run()
   }
 }
