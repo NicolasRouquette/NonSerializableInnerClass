@@ -26,7 +26,10 @@ object Bar {
      val r = new Runnable() {
 
       override def run(): Unit = {
-        Wrapper.toTry(Foo.hello)("world1") match {
+        Wrapper.toTry
+        { (s: String) =>
+          Foo.hello(s)
+        }("world1") match {
           case Failure(t) =>
             throw t
           case Success(_) =>
