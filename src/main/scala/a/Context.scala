@@ -1,0 +1,5 @@
+package a
+
+trait Context {
+
+}
